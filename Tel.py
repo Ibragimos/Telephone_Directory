@@ -1,15 +1,15 @@
-def copy_entry(source_file: str, destination_file: str):
-    entry_id = int(input("Введите номер строки для копирования: "))
+def copy_entry_by_lastname(source_file: str, destination_file: str):
+    last_name = input("Введите фамилию для копирования: ")
     with open(source_file, 'r', encoding='utf-8') as source_f:
         data = source_f.readlines()
-        try:
-            entry_to_copy = data[entry_id - 1]
-        except IndexError:
-            print("Ошибка: введен недопустимый номер строки.")
+        found_entries = [entry for entry in data if last_name in entry]
+        
+        if not found_entries:
+            print("Записей с указанной фамилией не найдено.")
             return
 
     with open(destination_file, 'a', encoding='utf-8') as dest_f:
-        dest_f.write(entry_to_copy)
+        dest_f.writelines(found_entries)
         
         
 def show_all(file_name:str):
@@ -101,7 +101,8 @@ def main():
         elif answer == '5':
             print(find_by_attribute(file_name,False))
         elif answer == '6':
-            copy_entry(file_name, destination_file)
+            copy_entry_by_lastname(file_name, destination_file)
+            print('Запись скопирована')
         elif answer == 'x':
             flag_exit = True
 
